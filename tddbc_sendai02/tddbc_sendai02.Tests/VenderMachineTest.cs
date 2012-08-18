@@ -29,7 +29,17 @@ namespace tddbc_sendai02.Tests
                 VenderMachineController vm = new VenderMachineController();
                 vm.Insert(actual);
                 vm.AmountOfMoney.Is(expected);
+
             });
+        }
+
+        [TestMethod]
+        public void 複数回お金を投入する()
+        {
+            VenderMachineController vm = new VenderMachineController();
+            vm.Insert(10);
+            vm.Insert(50);
+            vm.AmountOfMoney.Is(60);
         }
     }
 }

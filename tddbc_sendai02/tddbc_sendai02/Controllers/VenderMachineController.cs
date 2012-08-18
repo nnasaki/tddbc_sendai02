@@ -11,7 +11,7 @@ namespace VenderMachine.Controllers
 
         public void Insert(int p)
         {
-           AmountOfMoney = p;
+           AmountOfMoney += p;
         }
 
     }
