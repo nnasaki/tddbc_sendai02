@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tddbc_sendai02", "tddbc_sendai02\tddbc_sendai02.csproj", "{EEAFD899-A33D-4572-A00D-DC24331DA0FD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VenderMachine", "tddbc_sendai02\VenderMachine.csproj", "{EEAFD899-A33D-4572-A00D-DC24331DA0FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tddbc_sendai02.Tests", "tddbc_sendai02.Tests\tddbc_sendai02.Tests.csproj", "{9582ED70-E8AB-413D-849B-BD5E8FBC6F08}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VenderMachine.Tests", "tddbc_sendai02.Tests\VenderMachine.Tests.csproj", "{9582ED70-E8AB-413D-849B-BD5E8FBC6F08}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{E49CE141-B13A-4232-8A4C-F272EB85CAE0}"
 	ProjectSection(SolutionItems) = preProject
@@ -16,13 +16,13 @@ Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccLocalPath0 = .
-		SccLocalPath1 = tddbc_sendai02.Tests
-		SccLocalPath2 = tddbc_sendai02
+		SccLocalPath1 = tddbc_sendai02
+		SccLocalPath2 = tddbc_sendai02.Tests
 		SccNumberOfProjects = 3
-		SccProjectName1 = tddbc_sendai02.Tests
-		SccProjectName2 = tddbc_sendai02
-		SccProjectUniqueName1 = tddbc_sendai02.Tests\\tddbc_sendai02.Tests.csproj
-		SccProjectUniqueName2 = tddbc_sendai02\\tddbc_sendai02.csproj
+		SccProjectName1 = tddbc_sendai02
+		SccProjectName2 = tddbc_sendai02.Tests
+		SccProjectUniqueName1 = tddbc_sendai02\\VenderMachine.csproj
+		SccProjectUniqueName2 = tddbc_sendai02.Tests\\VenderMachine.Tests.csproj
 		SccTeamFoundationServer = https://nnasaki.tfspreview.com/defaultcollection
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
