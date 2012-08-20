@@ -14,5 +14,12 @@ namespace VenderMachine.Controllers
            AmountOfMoney += p;
         }
 
+
+        public int Refund()
+        {
+            int change = AmountOfMoney;
+            AmountOfMoney = 0;
+            return change;
+        }
     }
 }

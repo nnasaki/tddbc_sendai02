@@ -41,5 +41,21 @@ namespace tddbc_sendai02.Tests
             vm.Insert(50);
             vm.AmountOfMoney.Is(60);
         }
+
+        [TestMethod]
+        public void 投入金額の総計を取得できる()
+        {
+            // ここのテストはすでに AmountOfMoney が実装されているのでしない
+        }
+
+        [TestMethod]
+        public void 払い戻し操作を行い投入金額の総計を釣銭として出力する()
+        {
+            var vm = new VenderMachineController();
+            vm.Insert(10);
+            vm.Insert(100);
+            vm.Refund().Is(110);
+            vm.AmountOfMoney.Is(0);
+        }
     }
 }
