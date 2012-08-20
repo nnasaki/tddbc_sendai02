@@ -12,7 +12,7 @@ namespace tddbc_sendai02.Tests
         [TestMethod]
         public void 十円玉を投入する()
         {
-            VenderMachineController vm = new VenderMachineController();
+            var vm = new VenderMachineController();
             vm.Insert(10);
             Assert.AreEqual(10, vm.AmountOfMoney);
         }
@@ -26,7 +26,7 @@ namespace tddbc_sendai02.Tests
         {
             TestContext.Run((int expected, int actual) =>
             {
-                VenderMachineController vm = new VenderMachineController();
+                var vm = new VenderMachineController();
                 vm.Insert(actual);
                 vm.AmountOfMoney.Is(expected);
 
@@ -36,7 +36,7 @@ namespace tddbc_sendai02.Tests
         [TestMethod]
         public void 複数回お金を投入する()
         {
-            VenderMachineController vm = new VenderMachineController();
+            var vm = new VenderMachineController();
             vm.Insert(10);
             vm.Insert(50);
             vm.AmountOfMoney.Is(60);
@@ -55,6 +55,13 @@ namespace tddbc_sendai02.Tests
             vm.Insert(10);
             vm.Insert(100);
             vm.Refund().Is(110);
+            vm.AmountOfMoney.Is(0);
+        }
+
+        [TestMethod]
+        public void 総計の初期値は常に０であること()
+        {
+            var vm = new VenderMachineController();
             vm.AmountOfMoney.Is(0);
         }
     }
