@@ -66,15 +66,24 @@ namespace tddbc_sendai02.Tests
         }
 
         [TestMethod]
+        [TestCase(0, false)]
+        [TestCase(1, false)]
+        [TestCase(5, false)]
+        [TestCase(10, true)]
+        [TestCase(50, true)]
+        [TestCase(100, true)]
+        [TestCase(1000, true)]
+        [TestCase(5000, false)]
+        [TestCase(10000, false)]
+        [TestCase(10001, false)]
         public void 想定外のお金を判定する()
         {
-            var vm = new VenderMachineController();
-            vm.IsExpectedMoney(1).Is(false);
-            vm.IsExpectedMoney(5).Is(false);
-            vm.IsExpectedMoney(10).Is(true);
-            vm.IsExpectedMoney(500).Is(true);
-            vm.IsExpectedMoney(1000).Is(true);
-            vm.IsExpectedMoney(5000).Is(false);
+            TestContext.Run((int money, bool expected) =>
+            {
+                var vm = new VenderMachineController();
+                bool ret = vm.AsDynamic().IsExpectedMoney(money);
+                ret.Is(expected);
+            });
         }
 
         [TestMethod]

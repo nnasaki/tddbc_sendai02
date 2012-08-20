@@ -11,6 +11,11 @@ namespace VenderMachine.Controllers
     public class VenderMachineController
     {
         /// <summary>
+        /// 投入可能なお金の定義
+        /// </summary>
+        private static readonly List<int> expectedMoney = new List<int> { 10, 50, 100, 500, 1000 };
+
+        /// <summary>
         /// 投入額の総計。直接代入は出来ない。
         /// int 型の初期値は 0 であることが保障されている。
         /// </summary>
@@ -45,15 +50,17 @@ namespace VenderMachine.Controllers
             return change;
         }
 
+        #region "private メソッド"
         /// <summary>
         /// 対象外のお金かどうか判定する
         /// </summary>
         /// <param name="money">お金</param>
         /// <returns>true:期待通り、false:対象外のお金</returns>
-        public bool IsExpectedMoney(int money)
+        private bool IsExpectedMoney(int money)
         {
-            List<int> expectedMoney = new List<int>{ 10, 50, 100, 500, 1000 };
             return expectedMoney.Contains(money);
         }
+        #endregion
+
     }
 }
