@@ -20,9 +20,18 @@ namespace VenderMachine.Controllers
         /// お金を投入する
         /// </summary>
         /// <param name="money"></param>
-        public void Insert(int money)
+        /// <returns>お釣りを表す。お釣りがない場合は0を返す</returns>
+        public int Insert(int money)
         {
-           AmountOfMoney += money;
+            if (IsExpectedMoney(money))
+            {
+                AmountOfMoney += money;
+                return 0;
+            }
+            else
+            {
+                return money;
+            }
         }
 
         /// <summary>
@@ -34,6 +43,17 @@ namespace VenderMachine.Controllers
             int change = AmountOfMoney;
             AmountOfMoney = 0;
             return change;
+        }
+
+        /// <summary>
+        /// 対象外のお金かどうか判定する
+        /// </summary>
+        /// <param name="money">お金</param>
+        /// <returns>true:期待通り、false:対象外のお金</returns>
+        public bool IsExpectedMoney(int money)
+        {
+            List<int> expectedMoney = new List<int>{ 10, 50, 100, 500, 1000 };
+            return expectedMoney.Contains(money);
         }
     }
 }

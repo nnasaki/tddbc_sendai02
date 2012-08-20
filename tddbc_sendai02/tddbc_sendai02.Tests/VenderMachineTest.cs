@@ -64,5 +64,39 @@ namespace tddbc_sendai02.Tests
             var vm = new VenderMachineController();
             vm.AmountOfMoney.Is(0);
         }
+
+        [TestMethod]
+        public void 想定外のお金を判定する()
+        {
+            var vm = new VenderMachineController();
+            vm.IsExpectedMoney(1).Is(false);
+            vm.IsExpectedMoney(5).Is(false);
+            vm.IsExpectedMoney(10).Is(true);
+            vm.IsExpectedMoney(500).Is(true);
+            vm.IsExpectedMoney(1000).Is(true);
+            vm.IsExpectedMoney(5000).Is(false);
+        }
+
+        [TestMethod]
+        public void 想定外の壱円を投入して合計金額に加算されていないこと()
+        {
+            var vm = new VenderMachineController();
+            vm.Insert(1);
+            vm.AmountOfMoney.Is(0);
+        }
+
+        [TestMethod]
+        public void 想定外の1万円を投入して1万円がお釣りとして出力されること()
+        {
+            var vm = new VenderMachineController();
+            vm.Insert(10000).Is(10000);
+        }
+
+        [TestMethod]
+        public void 想定内の500円を投入してお釣りが出力されない_０である_こと()
+        {
+            var vm = new VenderMachineController();
+            vm.Insert(500).Is(0);
+        }
     }
 }
