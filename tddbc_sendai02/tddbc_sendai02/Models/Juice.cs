@@ -1,12 +1,12 @@
 ﻿
 namespace VenderMachine.Models
 {
-    public class StockJuice : System.IEquatable<StockJuice>
+    public class Juice : System.IEquatable<Juice>
     {
         public string Name { get; set; }
         public int Price { get; set; }
 
-        public bool Equals(StockJuice other)
+        public bool Equals(Juice other)
         {
             if (other == null)
             {
@@ -24,7 +24,7 @@ namespace VenderMachine.Models
                 return false;
             }
 
-            return this.Equals((StockJuice)obj);
+            return this.Equals((Juice)obj);
         }
 
         public override int GetHashCode()

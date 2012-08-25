@@ -109,7 +109,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\StockJuice.cs" />
+    <Compile Include="Models\Juice.cs" />
     <Compile Include="Controllers\VenderMachineController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

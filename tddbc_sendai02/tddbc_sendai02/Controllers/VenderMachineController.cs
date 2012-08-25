@@ -23,6 +23,26 @@ namespace VenderMachine.Controllers
         public int AmountOfMoney { get; private set; }
 
         /// <summary>
+        /// ジュースの在庫情報を格納する
+        /// </summary>
+        public IList<Juice> StockOfJuice { get; set; }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public VenderMachineController()
+        {
+            StockOfJuice = new List<Juice>()
+            {
+                new Juice { Name="Coke", Price=120},
+                new Juice { Name="Coke", Price=120},
+                new Juice { Name="Coke", Price=120},
+                new Juice { Name="Coke", Price=120},
+                new Juice { Name="Coke", Price=120}
+            };
+        }
+
+        /// <summary>
         /// お金を投入する
         /// </summary>
         /// <param name="money"></param>
@@ -63,14 +83,5 @@ namespace VenderMachine.Controllers
         }
         #endregion
 
-
-        public IList<StockJuice> GetStockOfJuice()
-        {
-            var list = new List<StockJuice> {
-                new StockJuice { Name="Coke", Price=120}
-            };
-
-            return list;
-        }
     }
 }
