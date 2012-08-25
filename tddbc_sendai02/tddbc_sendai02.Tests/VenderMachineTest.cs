@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VenderMachine.Controllers;
+using VenderMachine.Models;
 
 namespace tddbc_sendai02.Tests
 {
@@ -106,6 +107,14 @@ namespace tddbc_sendai02.Tests
         {
             var vm = new VenderMachineController();
             vm.Insert(500).Is(0);
+        }
+
+        [TestMethod]
+        public void 初期状態でコーラがあること()
+        {
+            var vm = new VenderMachineController();
+            var coke = new StockJuice() { Name="Coke", Price=120 };
+            vm.GetStockOfJuice().Contains(coke).Is(true);
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using VenderMachine.Models;
 
 namespace VenderMachine.Controllers
 {
@@ -62,5 +63,14 @@ namespace VenderMachine.Controllers
         }
         #endregion
 
+
+        public IList<StockJuice> GetStockOfJuice()
+        {
+            var list = new List<StockJuice> {
+                new StockJuice { Name="Coke", Price=120}
+            };
+
+            return list;
+        }
     }
 }
