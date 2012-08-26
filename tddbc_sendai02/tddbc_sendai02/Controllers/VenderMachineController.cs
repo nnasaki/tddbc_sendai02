@@ -91,6 +91,25 @@ namespace VenderMachine.Controllers
 
         }
 
+        /// <summary>
+        /// 在庫と投入金額から商品が買えるか判定する
+        /// </summary>
+        /// <param name="juice"></param>
+        /// <returns>true:商品が買える false:商品が買えない</returns>
+        public bool IsPurchase(Juice juice)
+        {
+            var stock = GetStockOfJuiceInfo();
+            if (IsSufficientStock(juice, stock))
+            {
+                if (IsSufficientMoney(juice))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         #region "private メソッド"
         /// <summary>
         /// 対象外のお金かどうか判定する
@@ -101,6 +120,33 @@ namespace VenderMachine.Controllers
         {
             return expectedMoney.Contains(money);
         }
+
+        private bool IsSufficientStock(Juice juice, StockOfJuiceInfo stock)
+        {
+            if (stock.Name == juice.Name)
+            {
+                if (stock.CanOfJuice > 0)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool IsSufficientMoney(Juice juice)
+        {
+            if (AmountOfMoney >= juice.Price)
+            {
+                return true;
+            }
+
+            return false;
+        }
         #endregion
+
+
+
+
     }
 }
