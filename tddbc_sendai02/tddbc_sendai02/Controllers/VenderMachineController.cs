@@ -71,6 +71,26 @@ namespace VenderMachine.Controllers
             return change;
         }
 
+        /// <summary>
+        /// ジュースの在庫情報を返す
+        /// </summary>
+        public StockOfJuiceInfo GetStockOfJuiceInfo()
+        {
+            // Linq でジュースの在庫コレクションを名前と値段でグルーピングする。
+            // SQL の GROUP BY と同じ。
+            var statistics = StockOfJuice.GroupBy(x => new { x.Name, x.Price });
+            var stockOfJuiceInfo = new StockOfJuiceInfo();
+            foreach (var item in statistics)
+            {
+                stockOfJuiceInfo.Name = item.Key.Name;
+                stockOfJuiceInfo.Price = item.Key.Price;
+                stockOfJuiceInfo.CanOfJuice = item.Count();
+            };
+
+            return stockOfJuiceInfo;
+
+        }
+
         #region "private メソッド"
         /// <summary>
         /// 対象外のお金かどうか判定する
@@ -82,6 +102,5 @@ namespace VenderMachine.Controllers
             return expectedMoney.Contains(money);
         }
         #endregion
-
     }
 }

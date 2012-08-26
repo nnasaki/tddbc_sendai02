@@ -131,5 +131,12 @@ namespace tddbc_sendai02.Tests
             var coke = new Juice() { Name = "Coke", Price = 120 };
             vm.StockOfJuice.Where(x => (x.Name == "Coke" && x.Price == 120)).Count().Is(5);
         }
+
+        [TestMethod]
+        public void 格納されているジュースの名前を取得できる()
+        {
+            var vm = new VenderMachineController();
+            vm.GetStockOfJuiceInfo().Is(s => s.Name == "Coke" && s.Price == 120 && s.CanOfJuice == 5);
+        }
     }
 }
