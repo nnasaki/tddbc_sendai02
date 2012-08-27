@@ -161,5 +161,20 @@ namespace tddbc_sendai02.Tests
             vm.IsPurchase(coke).Is(true);
         }
 
+        [TestMethod]
+        public void ジュースを購入するとジュースの在庫が減って売り上げ金額が増えること()
+        {
+            var vm = new VenderMachineController();
+            vm.Insert(500);
+            var coke = new Juice() { Name = "Coke", Price = 120 };
+            vm.Purchase(coke);
+
+            vm.AmountOfMoney.Is(380);
+            int ret = vm.AsDynamic().SaleAmount;
+            ret.Is(120);
+
+            vm.GetStockOfJuiceInfo().CanOfJuice.Is(4);
+
+        }
     }
 }

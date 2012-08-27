@@ -28,6 +28,11 @@ namespace VenderMachine.Controllers
         public IList<Juice> StockOfJuice { get; set; }
 
         /// <summary>
+        /// 売り上げ金額
+        /// </summary>
+        public int SaleAmount { get; private set; }
+
+        /// <summary>
         /// コンストラクタ
         /// </summary>
         public VenderMachineController()
@@ -148,5 +153,16 @@ namespace VenderMachine.Controllers
 
 
 
+
+        public void Purchase(Juice coke)
+        {
+            if (IsPurchase(coke))
+            {
+                AmountOfMoney -= coke.Price;
+                SaleAmount += coke.Price;
+                StockOfJuice.Remove(coke);
+            }
+
+        }
     }
 }
