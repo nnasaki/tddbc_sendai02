@@ -188,6 +188,41 @@ namespace tddbc_sendai02.Tests
             vm.SaleAmount.Is(120);
         }
 
+        [TestMethod]
+        public void 投入金額が足りないので購入操作を行っても何もしないこと()
+        {
+            var vm = new VenderMachineController();
+            vm.Insert(100);
+            var coke = new Juice() { Name = "Coke", Price = 120 };
+            vm.Purchase(coke);
 
+            vm.AmountOfMoney.Is(100);
+            vm.SaleAmount.Is(0);
+            vm.GetStockOfJuiceInfo().CanOfJuice.Is(5);
+        }
+
+        [TestMethod]
+        public void 在庫が足りないので購入操作を行っても何もしないこと()
+        {
+            var vm = new VenderMachineController();
+            vm.Insert(1000);
+            var coke = new Juice() { Name = "Coke", Price = 120 };
+            // 5回買う
+            for (int i = 0; i < 5; i++)
+            {
+                vm.Purchase(coke);                
+            }
+
+            // 在庫がないことを確認して、もう一度購入してみる
+            vm.AmountOfMoney.Is(400);
+            vm.SaleAmount.Is(600);
+            vm.GetStockOfJuiceInfo().CanOfJuice.Is(0);
+
+            vm.Purchase(coke);
+
+            vm.AmountOfMoney.Is(400);
+            vm.SaleAmount.Is(600);
+            vm.GetStockOfJuiceInfo().CanOfJuice.Is(0);
+        }
     }
 }
