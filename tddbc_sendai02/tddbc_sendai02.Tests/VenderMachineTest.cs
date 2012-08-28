@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VenderMachine.Controllers;
 using VenderMachine.Models;
 using System.Linq;
+using VenderMachine.Models.Abstract;
 
 namespace tddbc_sendai02.Tests
 {
@@ -114,13 +115,16 @@ namespace tddbc_sendai02.Tests
         public void 初期状態でコーラがあること()
         {
             var vm = new VenderMachineController();
-            var coke = new Juice() { Name="Coke", Price=120 };
+            var cokeFactory = new CokeFactory();
+            var coke = cokeFactory.Create();
             vm.StockOfJuice.Contains(coke).Is(true);
 
-            var soda = new Juice() { Name = "soda", Price = 100 };
+            var sodaFactory = new SodaFactory();
+            var soda = sodaFactory.Create();
             vm.StockOfJuice.Contains(soda).Is(false);
 
-            var coke_miss_price = new Juice() { Name = "Coke", Price = 100 };
+            var coke_miss_price = cokeFactory.Create();
+            coke_miss_price.Price = 100;
             vm.StockOfJuice.Contains(coke_miss_price).Is(false);
         }
 
@@ -128,7 +132,8 @@ namespace tddbc_sendai02.Tests
         public void 初期状態でコーラが5本あること()
         {
             var vm = new VenderMachineController();
-            var coke = new Juice() { Name = "Coke", Price = 120 };
+            var cokeFactory = new CokeFactory();
+            var coke = cokeFactory.Create();
             vm.StockOfJuice.Where(x => (x.Name == "Coke" && x.Price == 120)).Count().Is(5);
         }
 
@@ -143,7 +148,8 @@ namespace tddbc_sendai02.Tests
         public void 投入金額が不足していてコーラが購入できないと判定されること()
         {
             var vm = new VenderMachineController();
-            var coke = new Juice() { Name = "Coke", Price = 120 };
+            var cokeFactory = new CokeFactory();
+            var coke = cokeFactory.Create();
             vm.IsPurchase(coke).Is(false);
 
             vm.Insert(100);
@@ -157,7 +163,9 @@ namespace tddbc_sendai02.Tests
             vm.Insert(100);
             vm.Insert(10);
             vm.Insert(10);
-            var coke = new Juice() { Name = "Coke", Price = 120 };
+
+            var cokeFactory = new CokeFactory();
+            var coke = cokeFactory.Create();
             vm.IsPurchase(coke).Is(true);
         }
 
@@ -166,7 +174,8 @@ namespace tddbc_sendai02.Tests
         {
             var vm = new VenderMachineController();
             vm.Insert(500);
-            var coke = new Juice() { Name = "Coke", Price = 120 };
+            var cokeFactory = new CokeFactory();
+            var coke = cokeFactory.Create();
             vm.Purchase(coke);
 
             vm.AmountOfMoney.Is(380);
@@ -183,7 +192,8 @@ namespace tddbc_sendai02.Tests
             vm.Insert(500);
             vm.SaleAmount.Is(0);
 
-            var coke = new Juice() { Name = "Coke", Price = 120 };
+            var cokeFactory = new CokeFactory();
+            var coke = cokeFactory.Create();
             vm.Purchase(coke);
             vm.SaleAmount.Is(120);
         }
@@ -193,7 +203,8 @@ namespace tddbc_sendai02.Tests
         {
             var vm = new VenderMachineController();
             vm.Insert(100);
-            var coke = new Juice() { Name = "Coke", Price = 120 };
+            var cokeFactory = new CokeFactory();
+            var coke = cokeFactory.Create();
             vm.Purchase(coke);
 
             vm.AmountOfMoney.Is(100);
@@ -206,7 +217,8 @@ namespace tddbc_sendai02.Tests
         {
             var vm = new VenderMachineController();
             vm.Insert(1000);
-            var coke = new Juice() { Name = "Coke", Price = 120 };
+            var cokeFactory = new CokeFactory();
+            var coke = cokeFactory.Create();
             // 5回買う
             for (int i = 0; i < 5; i++)
             {
@@ -231,7 +243,8 @@ namespace tddbc_sendai02.Tests
             var vm = new VenderMachineController();
             vm.Insert(100);
             vm.Insert(50);
-            var coke = new Juice() { Name = "Coke", Price = 120 };
+            var cokeFactory = new CokeFactory();
+            var coke = cokeFactory.Create();
             vm.Purchase(coke);
 
             vm.Change().Is(30);

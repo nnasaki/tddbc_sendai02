@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using VenderMachine.Models;
+using VenderMachine.Models.Abstract;
 
 namespace VenderMachine.Controllers
 {
@@ -25,7 +26,7 @@ namespace VenderMachine.Controllers
         /// <summary>
         /// ジュースの在庫情報を格納する
         /// </summary>
-        public IList<Juice> StockOfJuice { get; set; }
+        public IList<IJuice> StockOfJuice { get; set; }
 
         /// <summary>
         /// 売り上げ金額
@@ -37,13 +38,14 @@ namespace VenderMachine.Controllers
         /// </summary>
         public VenderMachineController()
         {
-            StockOfJuice = new List<Juice>()
+            var factory = new CokeFactory();
+            StockOfJuice = new List<IJuice>()
             {
-                new Juice { Name="Coke", Price=120},
-                new Juice { Name="Coke", Price=120},
-                new Juice { Name="Coke", Price=120},
-                new Juice { Name="Coke", Price=120},
-                new Juice { Name="Coke", Price=120}
+                factory.Create(),
+                factory.Create(),
+                factory.Create(),
+                factory.Create(),
+                factory.Create()
             };
         }
 
@@ -101,7 +103,7 @@ namespace VenderMachine.Controllers
         /// </summary>
         /// <param name="juice"></param>
         /// <returns>true:商品が買える false:商品が買えない</returns>
-        public bool IsPurchase(Juice juice)
+        public bool IsPurchase(IJuice juice)
         {
             var stock = GetStockOfJuiceInfo();
             if (IsSufficientStock(juice, stock))
@@ -119,7 +121,7 @@ namespace VenderMachine.Controllers
         /// ジュースを購入する
         /// </summary>
         /// <param name="coke"></param>
-        public void Purchase(Juice coke)
+        public void Purchase(IJuice coke)
         {
             if (IsPurchase(coke))
             {
@@ -128,6 +130,17 @@ namespace VenderMachine.Controllers
                 StockOfJuice.Remove(coke);
             }
 
+        }
+
+
+        /// <summary>
+        /// 釣銭を出力する。投入額は0円になる。
+        /// </summary>
+        public int Change()
+        {
+            var change = AmountOfMoney;
+            AmountOfMoney = 0;
+            return change;
         }
 
         #region "private メソッド"
@@ -141,7 +154,13 @@ namespace VenderMachine.Controllers
             return expectedMoney.Contains(money);
         }
 
-        private bool IsSufficientStock(Juice juice, StockOfJuiceInfo stock)
+        /// <summary>
+        /// 在庫が十分かどうか確認する
+        /// </summary>
+        /// <param name="juice"></param>
+        /// <param name="stock"></param>
+        /// <returns>true:十分 false:不十分</returns>
+        private bool IsSufficientStock(IJuice juice, StockOfJuiceInfo stock)
         {
             if (stock.Name == juice.Name)
             {
@@ -154,7 +173,12 @@ namespace VenderMachine.Controllers
             return false;
         }
 
-        private bool IsSufficientMoney(Juice juice)
+        /// <summary>
+        /// お金が十分かどうか確認する
+        /// </summary>
+        /// <param name="juice"></param>
+        /// <returns>true:十分 false:不十分</returns>
+        private bool IsSufficientMoney(IJuice juice)
         {
             if (AmountOfMoney >= juice.Price)
             {
@@ -164,15 +188,5 @@ namespace VenderMachine.Controllers
             return false;
         }
         #endregion
-
-        /// <summary>
-        /// 釣銭を出力する。投入額は0円になる。
-        /// </summary>
-        public int Change()
-        {
-            var change = AmountOfMoney;
-            AmountOfMoney = 0;
-            return change;
-        }
     }
 }

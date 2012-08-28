@@ -109,12 +109,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Juice.cs" />
+    <Compile Include="Models\Abstract\IJuice.cs" />
+    <Compile Include="Models\Abstract\IJuiceFactory.cs" />
+    <Compile Include="Models\Coke.cs" />
+    <Compile Include="Models\CokeFactory.cs" />
     <Compile Include="Controllers\VenderMachineController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\StockOfJuiceInfo.cs" />
+    <Compile Include="Models\SodaFactory.cs" />
+    <Compile Include="Models\Soda.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
