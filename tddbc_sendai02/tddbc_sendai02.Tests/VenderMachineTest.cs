@@ -170,11 +170,24 @@ namespace tddbc_sendai02.Tests
             vm.Purchase(coke);
 
             vm.AmountOfMoney.Is(380);
-            int ret = vm.AsDynamic().SaleAmount;
-            ret.Is(120);
+            vm.SaleAmount.Is(120);
 
             vm.GetStockOfJuiceInfo().CanOfJuice.Is(4);
 
         }
+
+        [TestMethod]
+        public void 現在の売上金額が取得できること()
+        {
+            var vm = new VenderMachineController();
+            vm.Insert(500);
+            vm.SaleAmount.Is(0);
+
+            var coke = new Juice() { Name = "Coke", Price = 120 };
+            vm.Purchase(coke);
+            vm.SaleAmount.Is(120);
+        }
+
+
     }
 }

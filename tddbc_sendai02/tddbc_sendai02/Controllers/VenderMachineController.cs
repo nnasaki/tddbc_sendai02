@@ -115,6 +115,21 @@ namespace VenderMachine.Controllers
             return false;
         }
 
+        /// <summary>
+        /// ジュースを購入する
+        /// </summary>
+        /// <param name="coke"></param>
+        public void Purchase(Juice coke)
+        {
+            if (IsPurchase(coke))
+            {
+                AmountOfMoney -= coke.Price;
+                SaleAmount += coke.Price;
+                StockOfJuice.Remove(coke);
+            }
+
+        }
+
         #region "private メソッド"
         /// <summary>
         /// 対象外のお金かどうか判定する
@@ -150,19 +165,5 @@ namespace VenderMachine.Controllers
         }
         #endregion
 
-
-
-
-
-        public void Purchase(Juice coke)
-        {
-            if (IsPurchase(coke))
-            {
-                AmountOfMoney -= coke.Price;
-                SaleAmount += coke.Price;
-                StockOfJuice.Remove(coke);
-            }
-
-        }
     }
 }
