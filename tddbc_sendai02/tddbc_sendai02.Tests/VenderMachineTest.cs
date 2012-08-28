@@ -224,5 +224,17 @@ namespace tddbc_sendai02.Tests
             vm.SaleAmount.Is(600);
             vm.GetStockOfJuiceInfo().CanOfJuice.Is(0);
         }
+
+        [TestMethod]
+        public void 釣銭を出力する()
+        {
+            var vm = new VenderMachineController();
+            vm.Insert(100);
+            vm.Insert(50);
+            var coke = new Juice() { Name = "Coke", Price = 120 };
+            vm.Purchase(coke);
+
+            vm.Change().Is(30);
+        }
     }
 }

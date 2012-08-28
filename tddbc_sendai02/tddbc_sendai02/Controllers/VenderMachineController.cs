@@ -165,5 +165,14 @@ namespace VenderMachine.Controllers
         }
         #endregion
 
+        /// <summary>
+        /// 釣銭を出力する。投入額は0円になる。
+        /// </summary>
+        public int Change()
+        {
+            var change = AmountOfMoney;
+            AmountOfMoney = 0;
+            return change;
+        }
     }
 }
