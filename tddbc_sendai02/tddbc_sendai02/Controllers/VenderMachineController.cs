@@ -40,6 +40,7 @@ namespace VenderMachine.Controllers
         {
             var cokeFactory = new CokeFactory();
             var redBullFactory = new RedBullFactory();
+            var waterFactory = new WaterFactory();
             StockOfJuice = new List<IJuice>()
             {
                 cokeFactory.Create(),
@@ -51,7 +52,12 @@ namespace VenderMachine.Controllers
                 redBullFactory.Create(),
                 redBullFactory.Create(),
                 redBullFactory.Create(),
-                redBullFactory.Create()
+                redBullFactory.Create(),
+                waterFactory.Create(),
+                waterFactory.Create(),
+                waterFactory.Create(),
+                waterFactory.Create(),
+                waterFactory.Create()
             };
         }
 

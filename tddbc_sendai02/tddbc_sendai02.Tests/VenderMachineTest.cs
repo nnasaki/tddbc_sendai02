@@ -119,10 +119,6 @@ namespace tddbc_sendai02.Tests
             var coke = cokeFactory.Create();
             vm.StockOfJuice.Contains(coke).Is(true);
 
-            var sodaFactory = new SodaFactory();
-            var soda = sodaFactory.Create();
-            vm.StockOfJuice.Contains(soda).Is(false);
-
             var coke_miss_price = cokeFactory.Create();
             coke_miss_price.Price = 100;
             vm.StockOfJuice.Contains(coke_miss_price).Is(false);
@@ -267,6 +263,21 @@ namespace tddbc_sendai02.Tests
         public void レッドブルが200円であること()
         {
             new RedBullFactory().Create().Is(x => x.Price == 200);
+        }
+
+        [TestMethod]
+        public void 在庫に水が5本あること()
+        {
+            var vm = new VenderMachineController();
+            var water = new WaterFactory().Create();
+            var stock = vm.GetStockOfJuiceInfo().SingleOrDefault(x => x.Name == water.Name);
+            stock.CanOfJuice.Is(5);
+        }
+
+        [TestMethod]
+        public void 水が100円であること()
+        {
+            new WaterFactory().Create().Is(x => x.Price == 100);
         }
     }
 }
