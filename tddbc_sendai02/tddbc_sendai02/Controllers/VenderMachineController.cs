@@ -38,14 +38,20 @@ namespace VenderMachine.Controllers
         /// </summary>
         public VenderMachineController()
         {
-            var factory = new CokeFactory();
+            var cokeFactory = new CokeFactory();
+            var redBullFactory = new RedBullFactory();
             StockOfJuice = new List<IJuice>()
             {
-                factory.Create(),
-                factory.Create(),
-                factory.Create(),
-                factory.Create(),
-                factory.Create()
+                cokeFactory.Create(),
+                cokeFactory.Create(),
+                cokeFactory.Create(),
+                cokeFactory.Create(),
+                cokeFactory.Create(),
+                redBullFactory.Create(),
+                redBullFactory.Create(),
+                redBullFactory.Create(),
+                redBullFactory.Create(),
+                redBullFactory.Create()
             };
         }
 

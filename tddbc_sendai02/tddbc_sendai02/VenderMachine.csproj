@@ -120,6 +120,8 @@
     <Compile Include="Models\StockOfJuiceInfo.cs" />
     <Compile Include="Models\SodaFactory.cs" />
     <Compile Include="Models\Soda.cs" />
+    <Compile Include="Models\RedBull.cs" />
+    <Compile Include="Models\RedBullFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

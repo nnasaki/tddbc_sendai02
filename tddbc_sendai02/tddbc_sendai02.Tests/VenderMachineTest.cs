@@ -252,5 +252,15 @@ namespace tddbc_sendai02.Tests
 
             vm.Refund().Is(30);
         }
+
+        [TestMethod]
+        public void 在庫にレッドブルが5本あること()
+        {
+            var vm = new VenderMachineController();
+            var factory = new RedBullFactory();
+            var redbull = factory.Create();
+            var stock = vm.GetStockOfJuiceInfo().SingleOrDefault(x => x.Name == redbull.Name);
+            stock.CanOfJuice.Is(5);
+        }
     }
 }
