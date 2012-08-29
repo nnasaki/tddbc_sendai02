@@ -148,6 +148,15 @@ namespace VenderMachine.Controllers
 
         }
 
+        /// <summary>
+        /// 購入可能なジュースのリストを取得する
+        /// </summary>
+        /// <returns></returns>
+        public IList<IJuice> GetAvailableForPurchaseList()
+        {
+            return StockOfJuice.Where(x => x.Price <= AmountOfMoney).ToList();
+        }
+
         #region "private メソッド"
         /// <summary>
         /// 対象外のお金かどうか判定する

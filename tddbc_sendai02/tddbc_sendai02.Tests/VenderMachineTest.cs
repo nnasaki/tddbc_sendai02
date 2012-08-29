@@ -279,5 +279,59 @@ namespace tddbc_sendai02.Tests
         {
             new WaterFactory().Create().Is(x => x.Price == 100);
         }
+
+        [TestMethod]
+        public void 投入金額が不足していて購入可能なドリンクが無いこと()
+        {
+            var vm = new VenderMachineController();
+            vm.Insert(10);
+            vm.GetAvailableForPurchaseList().Is(x => x.Count == 0);
+        }
+
+        [TestMethod]
+        public void 水が購入可能となっていること()
+        {
+            var vm = new VenderMachineController();
+            vm.Insert(50);
+            vm.Insert(50);
+            var water = new WaterFactory().Create();
+            var coke = new CokeFactory().Create();
+            var redBull = new RedBullFactory().Create();
+            var list = vm.GetAvailableForPurchaseList();
+            list.Contains(water).Is(true);
+            list.Contains(coke).Is(false);
+            list.Contains(redBull).Is(false);
+        }
+
+        [TestMethod]
+        public void 水とコーラが購入可能となっていること()
+        {
+            var vm = new VenderMachineController();
+            vm.Insert(50);
+            vm.Insert(100);
+            var water = new WaterFactory().Create();
+            var coke = new CokeFactory().Create();
+            var redBull = new RedBullFactory().Create();
+            var list = vm.GetAvailableForPurchaseList();
+            list.Contains(water).Is(true);
+            list.Contains(coke).Is(true);
+            list.Contains(redBull).Is(false);
+        }
+
+        [TestMethod]
+        public void 水とコーラとレッドブルが購入可能となっていること()
+        {
+            var vm = new VenderMachineController();
+            vm.Insert(50);
+            vm.Insert(100);
+            vm.Insert(100);
+            var water = new WaterFactory().Create();
+            var coke = new CokeFactory().Create();
+            var redBull = new RedBullFactory().Create();
+            var list = vm.GetAvailableForPurchaseList();
+            list.Contains(water).Is(true);
+            list.Contains(coke).Is(true);
+            list.Contains(redBull).Is(true);
+        }
     }
 }
