@@ -141,7 +141,8 @@ namespace tddbc_sendai02.Tests
         public void 格納されているジュースの名前を取得できる()
         {
             var vm = new VenderMachineController();
-            vm.GetStockOfJuiceInfo().Is(s => s.Name == "Coke" && s.Price == 120 && s.CanOfJuice == 5);
+            var stock = vm.GetStockOfJuiceInfo().Single(x=>x.Name == "Coke");
+            stock.Is(s => s.Name == "Coke" && s.Price == 120 && s.CanOfJuice == 5);
         }
 
         [TestMethod]
@@ -181,7 +182,7 @@ namespace tddbc_sendai02.Tests
             vm.AmountOfMoney.Is(380);
             vm.SaleAmount.Is(120);
 
-            vm.GetStockOfJuiceInfo().CanOfJuice.Is(4);
+            vm.GetStockOfJuiceInfo().First().CanOfJuice.Is(4);
 
         }
 
@@ -209,7 +210,8 @@ namespace tddbc_sendai02.Tests
 
             vm.AmountOfMoney.Is(100);
             vm.SaleAmount.Is(0);
-            vm.GetStockOfJuiceInfo().CanOfJuice.Is(5);
+            var stock = vm.GetStockOfJuiceInfo().Single(x => x.Name == coke.Name);
+            stock.CanOfJuice.Is(5);
         }
 
         [TestMethod]
@@ -228,13 +230,14 @@ namespace tddbc_sendai02.Tests
             // 在庫がないことを確認して、もう一度購入してみる
             vm.AmountOfMoney.Is(400);
             vm.SaleAmount.Is(600);
-            vm.GetStockOfJuiceInfo().CanOfJuice.Is(0);
+            var stock = vm.GetStockOfJuiceInfo().SingleOrDefault(x => x.Name == coke.Name);
+            stock.IsNull();
 
             vm.Purchase(coke);
 
             vm.AmountOfMoney.Is(400);
             vm.SaleAmount.Is(600);
-            vm.GetStockOfJuiceInfo().CanOfJuice.Is(0);
+            stock.IsNull();
         }
 
         [TestMethod]
@@ -247,7 +250,7 @@ namespace tddbc_sendai02.Tests
             var coke = cokeFactory.Create();
             vm.Purchase(coke);
 
-            vm.Change().Is(30);
+            vm.Refund().Is(30);
         }
     }
 }

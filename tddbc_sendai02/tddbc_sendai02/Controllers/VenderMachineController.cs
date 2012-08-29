@@ -81,20 +81,24 @@ namespace VenderMachine.Controllers
         /// <summary>
         /// ジュースの在庫情報を返す
         /// </summary>
-        public StockOfJuiceInfo GetStockOfJuiceInfo()
+        public IList<StockOfJuiceInfo> GetStockOfJuiceInfo()
         {
             // Linq でジュースの在庫コレクションを名前と値段でグルーピングする。
             // SQL の GROUP BY と同じ。
             var statistics = StockOfJuice.GroupBy(x => new { x.Name, x.Price });
-            var stockOfJuiceInfo = new StockOfJuiceInfo();
+            var stockList = new List<StockOfJuiceInfo>();
             foreach (var item in statistics)
             {
-                stockOfJuiceInfo.Name = item.Key.Name;
-                stockOfJuiceInfo.Price = item.Key.Price;
-                stockOfJuiceInfo.CanOfJuice = item.Count();
-            };
-
-            return stockOfJuiceInfo;
+                var stockOfJuiceInfo = new StockOfJuiceInfo()
+                {
+                    Name = item.Key.Name,
+                    Price = item.Key.Price,
+                    CanOfJuice = item.Count()
+                };
+                stockList.Add(stockOfJuiceInfo);
+            }
+            
+            return stockList;
 
         }
 
@@ -105,7 +109,7 @@ namespace VenderMachine.Controllers
         /// <returns>true:商品が買える false:商品が買えない</returns>
         public bool IsPurchase(IJuice juice)
         {
-            var stock = GetStockOfJuiceInfo();
+            var stock = GetStockOfJuiceInfo().SingleOrDefault(x=>x.Name == juice.Name);
             if (IsSufficientStock(juice, stock))
             {
                 if (IsSufficientMoney(juice))
@@ -132,17 +136,6 @@ namespace VenderMachine.Controllers
 
         }
 
-
-        /// <summary>
-        /// 釣銭を出力する。投入額は0円になる。
-        /// </summary>
-        public int Change()
-        {
-            var change = AmountOfMoney;
-            AmountOfMoney = 0;
-            return change;
-        }
-
         #region "private メソッド"
         /// <summary>
         /// 対象外のお金かどうか判定する
@@ -162,6 +155,11 @@ namespace VenderMachine.Controllers
         /// <returns>true:十分 false:不十分</returns>
         private bool IsSufficientStock(IJuice juice, StockOfJuiceInfo stock)
         {
+            if (stock == null)
+            {
+                return false;
+            }
+
             if (stock.Name == juice.Name)
             {
                 if (stock.CanOfJuice > 0)
