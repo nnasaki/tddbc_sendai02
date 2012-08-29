@@ -7,7 +7,7 @@ namespace VenderMachine.Models
         public override void Setup()
         {
             this.Name = "RedBull";
-            this.Price = 100;
+            this.Price = 200;
         }
     }
 }

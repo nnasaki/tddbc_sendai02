@@ -262,5 +262,11 @@ namespace tddbc_sendai02.Tests
             var stock = vm.GetStockOfJuiceInfo().SingleOrDefault(x => x.Name == redbull.Name);
             stock.CanOfJuice.Is(5);
         }
+
+        [TestMethod]
+        public void レッドブルが200円であること()
+        {
+            new RedBullFactory().Create().Is(x => x.Price == 200);
+        }
     }
 }
