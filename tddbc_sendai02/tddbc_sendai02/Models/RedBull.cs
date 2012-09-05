@@ -1,13 +1,13 @@
 ﻿
 namespace VenderMachine.Models
 {
-    public class RedBull : Abstract.IJuice
+    public class RedBull : Abstract.Juice
     {
 
         public override void Setup()
         {
-            this.Name = "RedBull";
-            this.Price = 200;
+            Name = "RedBull";
+            Price = 200;
         }
     }
 }

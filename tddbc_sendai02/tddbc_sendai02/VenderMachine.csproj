@@ -109,8 +109,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Abstract\IJuice.cs" />
-    <Compile Include="Models\Abstract\IJuiceFactory.cs" />
+    <Compile Include="Models\Abstract\Juice.cs" />
+    <Compile Include="Models\Abstract\JuiceFactory.cs" />
     <Compile Include="Models\Coke.cs" />
     <Compile Include="Models\CokeFactory.cs" />
     <Compile Include="Controllers\VenderMachineController.cs" />

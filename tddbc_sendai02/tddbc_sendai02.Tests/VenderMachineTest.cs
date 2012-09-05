@@ -1,9 +1,8 @@
-﻿using System;
+﻿using System.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VenderMachine.Controllers;
 using VenderMachine.Models;
 using System.Linq;
-using VenderMachine.Models.Abstract;
 
 namespace tddbc_sendai02.Tests
 {
@@ -105,7 +104,7 @@ namespace tddbc_sendai02.Tests
         }
 
         [TestMethod]
-        public void 想定内の500円を投入してお釣りが出力されない_０である_こと()
+        public void 想定内の500円を投入してお釣りが出力されない_０であること()
         {
             var vm = new VenderMachineController();
             vm.Insert(500).Is(0);
@@ -119,9 +118,9 @@ namespace tddbc_sendai02.Tests
             var coke = cokeFactory.Create();
             vm.StockOfJuice.Contains(coke).Is(true);
 
-            var coke_miss_price = cokeFactory.Create();
-            coke_miss_price.Price = 100;
-            vm.StockOfJuice.Contains(coke_miss_price).Is(false);
+            var cokeMissPrice = cokeFactory.Create();
+            cokeMissPrice.Price = 100;
+            vm.StockOfJuice.Contains(cokeMissPrice).Is(false);
         }
 
         [TestMethod]
@@ -130,15 +129,17 @@ namespace tddbc_sendai02.Tests
             var vm = new VenderMachineController();
             var cokeFactory = new CokeFactory();
             var coke = cokeFactory.Create();
-            vm.StockOfJuice.Where(x => (x.Name == "Coke" && x.Price == 120)).Count().Is(5);
+            vm.StockOfJuice.Count(x => (x.Name == coke.Name && x.Price == coke.Price)).Is(5);
         }
 
         [TestMethod]
         public void 格納されているジュースの名前を取得できる()
         {
             var vm = new VenderMachineController();
-            var stock = vm.GetStockOfJuiceInfo().Single(x=>x.Name == "Coke");
-            stock.Is(s => s.Name == "Coke" && s.Price == 120 && s.CanOfJuice == 5);
+            var cokeFactory = new CokeFactory();
+            var coke = cokeFactory.Create();
+            var stock = vm.GetStockOfJuiceInfo().Single(x=>x.Name == coke.Name);
+            stock.Is(s => s.Name == coke.Name && s.Price == coke.Price && s.CanOfJuice == 5);
         }
 
         [TestMethod]
@@ -256,6 +257,7 @@ namespace tddbc_sendai02.Tests
             var factory = new RedBullFactory();
             var redbull = factory.Create();
             var stock = vm.GetStockOfJuiceInfo().SingleOrDefault(x => x.Name == redbull.Name);
+            Debug.Assert(stock != null, "stock != null");
             stock.CanOfJuice.Is(5);
         }
 
@@ -271,6 +273,7 @@ namespace tddbc_sendai02.Tests
             var vm = new VenderMachineController();
             var water = new WaterFactory().Create();
             var stock = vm.GetStockOfJuiceInfo().SingleOrDefault(x => x.Name == water.Name);
+            Debug.Assert(stock != null, "stock != null");
             stock.CanOfJuice.Is(5);
         }
 

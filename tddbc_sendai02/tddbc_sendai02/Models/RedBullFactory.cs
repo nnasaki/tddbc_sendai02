@@ -1,9 +1,9 @@
 ﻿
 namespace VenderMachine.Models
 {
-    public class RedBullFactory : Abstract.IJuiceFactory
+    public class RedBullFactory : Abstract.JuiceFactory
     {
-        protected override Abstract.IJuice CreateJuice()
+        protected override Abstract.Juice CreateJuice()
         {
             var juice = new RedBull();
             return juice;

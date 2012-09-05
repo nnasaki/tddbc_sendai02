@@ -1,13 +1,13 @@
 ﻿
 namespace VenderMachine.Models
 {
-    public class Water : Abstract.IJuice
+    public class Water : Abstract.Juice
     {
 
         public override void Setup()
         {
-            this.Name = "Water";
-            this.Price = 100;
+            Name = "Water";
+            Price = 100;
         }
     }
 }

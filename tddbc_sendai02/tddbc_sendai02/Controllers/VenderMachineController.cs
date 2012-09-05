@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using VenderMachine.Models;
 using VenderMachine.Models.Abstract;
 
@@ -15,7 +13,7 @@ namespace VenderMachine.Controllers
         /// <summary>
         /// 投入可能なお金の定義
         /// </summary>
-        private static readonly List<int> expectedMoney = new List<int> { 10, 50, 100, 500, 1000 };
+        private static readonly List<int> ExpectedMoney = new List<int> { 10, 50, 100, 500, 1000 };
 
         /// <summary>
         /// 投入額の総計。直接代入は出来ない。
@@ -26,7 +24,7 @@ namespace VenderMachine.Controllers
         /// <summary>
         /// ジュースの在庫情報を格納する
         /// </summary>
-        public IList<IJuice> StockOfJuice { get; set; }
+        public IList<Juice> StockOfJuice { get; set; }
 
         /// <summary>
         /// 売り上げ金額
@@ -38,27 +36,12 @@ namespace VenderMachine.Controllers
         /// </summary>
         public VenderMachineController()
         {
-            var cokeFactory = new CokeFactory();
-            var redBullFactory = new RedBullFactory();
-            var waterFactory = new WaterFactory();
-            StockOfJuice = new List<IJuice>()
-            {
-                cokeFactory.Create(),
-                cokeFactory.Create(),
-                cokeFactory.Create(),
-                cokeFactory.Create(),
-                cokeFactory.Create(),
-                redBullFactory.Create(),
-                redBullFactory.Create(),
-                redBullFactory.Create(),
-                redBullFactory.Create(),
-                redBullFactory.Create(),
-                waterFactory.Create(),
-                waterFactory.Create(),
-                waterFactory.Create(),
-                waterFactory.Create(),
-                waterFactory.Create()
-            };
+            StockOfJuice = new List<Juice>();
+            var juices = StockOfJuice as List<Juice>;
+
+            juices.AddRange(new CokeFactory().Create(5));
+            juices.AddRange(new RedBullFactory().Create(5));
+            juices.AddRange(new WaterFactory().Create(5));
         }
 
         /// <summary>
@@ -73,10 +56,7 @@ namespace VenderMachine.Controllers
                 AmountOfMoney += money;
                 return 0;
             }
-            else
-            {
-                return money;
-            }
+            return money;
         }
 
         /// <summary>
@@ -98,19 +78,12 @@ namespace VenderMachine.Controllers
             // Linq でジュースの在庫コレクションを名前と値段でグルーピングする。
             // SQL の GROUP BY と同じ。
             var statistics = StockOfJuice.GroupBy(x => new { x.Name, x.Price });
-            var stockList = new List<StockOfJuiceInfo>();
-            foreach (var item in statistics)
-            {
-                var stockOfJuiceInfo = new StockOfJuiceInfo()
-                {
-                    Name = item.Key.Name,
-                    Price = item.Key.Price,
-                    CanOfJuice = item.Count()
-                };
-                stockList.Add(stockOfJuiceInfo);
-            }
-            
-            return stockList;
+
+            // グループ化したジュースの在庫から、名前、値段、個数のカラムを持つリストを作成して返す
+            return statistics.Select(item => new StockOfJuiceInfo
+                                                 {
+                                                     Name = item.Key.Name, Price = item.Key.Price, CanOfJuice = item.Count()
+                                                 }).ToList();
 
         }
 
@@ -119,7 +92,7 @@ namespace VenderMachine.Controllers
         /// </summary>
         /// <param name="juice"></param>
         /// <returns>true:商品が買える false:商品が買えない</returns>
-        public bool IsPurchase(IJuice juice)
+        public bool IsPurchase(Juice juice)
         {
             var stock = GetStockOfJuiceInfo().SingleOrDefault(x=>x.Name == juice.Name);
             if (IsSufficientStock(juice, stock))
@@ -137,7 +110,7 @@ namespace VenderMachine.Controllers
         /// ジュースを購入する
         /// </summary>
         /// <param name="coke"></param>
-        public void Purchase(IJuice coke)
+        public void Purchase(Juice coke)
         {
             if (IsPurchase(coke))
             {
@@ -152,7 +125,7 @@ namespace VenderMachine.Controllers
         /// 購入可能なジュースのリストを取得する
         /// </summary>
         /// <returns></returns>
-        public IList<IJuice> GetAvailableForPurchaseList()
+        public IList<Juice> GetAvailableForPurchaseList()
         {
             return StockOfJuice.Where(x => x.Price <= AmountOfMoney).ToList();
         }
@@ -165,7 +138,7 @@ namespace VenderMachine.Controllers
         /// <returns>true:期待通り、false:対象外のお金</returns>
         private bool IsExpectedMoney(int money)
         {
-            return expectedMoney.Contains(money);
+            return ExpectedMoney.Contains(money);
         }
 
         /// <summary>
@@ -174,7 +147,7 @@ namespace VenderMachine.Controllers
         /// <param name="juice"></param>
         /// <param name="stock"></param>
         /// <returns>true:十分 false:不十分</returns>
-        private bool IsSufficientStock(IJuice juice, StockOfJuiceInfo stock)
+        private bool IsSufficientStock(Juice juice, StockOfJuiceInfo stock)
         {
             if (stock == null)
             {
@@ -197,7 +170,7 @@ namespace VenderMachine.Controllers
         /// </summary>
         /// <param name="juice"></param>
         /// <returns>true:十分 false:不十分</returns>
-        private bool IsSufficientMoney(IJuice juice)
+        private bool IsSufficientMoney(Juice juice)
         {
             if (AmountOfMoney >= juice.Price)
             {

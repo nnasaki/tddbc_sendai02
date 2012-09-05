@@ -1,9 +1,9 @@
 ﻿
 namespace VenderMachine.Models
 {
-    public class WaterFactory : Abstract.IJuiceFactory
+    public class WaterFactory : Abstract.JuiceFactory
     {
-        protected override Abstract.IJuice CreateJuice()
+        protected override Abstract.Juice CreateJuice()
         {
             var juice = new Water();
             return juice;
